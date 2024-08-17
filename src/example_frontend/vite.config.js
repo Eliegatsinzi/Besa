@@ -25,7 +25,7 @@ export default defineConfig({
     },
     headers: {
       // Add this if you need to set headers specifically for dev server
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.flutterwave.com; connect-src 'self' http://127.0.0.1:4943; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
+      'Content-Security-Policy': ""
     },
   },
   plugins: [

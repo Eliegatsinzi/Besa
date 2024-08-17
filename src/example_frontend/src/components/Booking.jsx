@@ -155,8 +155,8 @@ function Booking() {
     };
 
     const config = {
-        public_key: 'FLWPUBK-d93b193ef5fcf9c4029e807e787358fd-X',
-        // public_key: 'FLWPUBK_TEST-18c644fa7fff564a38749a3da2a7cde0-X',
+        // public_key: 'FLWPUBK-d93b193ef5fcf9c4029e807e787358fd-X',
+        public_key: 'FLWPUBK_TEST-18c644fa7fff564a38749a3da2a7cde0-X',
         tx_ref: txRef,
         amount: totalPrice,
         currency: 'RWF',
@@ -174,6 +174,32 @@ function Booking() {
     };
 
     const handleFlutterPayment = useFlutterwave(config);
+    // import axios from 'axios';
+
+    const sendMessage = async (transaction_id,amount) => {
+    const formData = new FormData();
+    formData.append('sender_id', 'L7-IT');
+    formData.append('ref', 'sms');
+    formData.append('message', `Dear ${customerName}, your booking for ${apartment.name} is confirmed. your transaction id is ${transaction_id} , Amount paid : ${amount} Rwf  Thank you!`);
+    formData.append('tel', customerPhone);
+
+    try {
+        const response = await axios.post(
+        'https://sms-api.hdev.rw/v1/api/HDEV-36691687-9144-4e4c-b769-62443d655e15-ID/HDEV-2a1749da-be37-4421-b982-81f10cc53301-KEY',
+        formData,
+        {
+            headers: {
+            'Content-Type': 'multipart/form-data',
+            // Add any additional headers if necessary
+            // Example: 'Authorization': 'Bearer YOUR_TOKEN'
+            }
+        }
+        );
+        console.log('Message sent successfully:', response.data);
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+    };
 
     const handlePayment = () => {
         handleFlutterPayment({
@@ -190,14 +216,8 @@ function Booking() {
                     });
 
                     // Send message to the client
-                    const messageResponse = await axios.post('https://sms-api.hdev.rw/v1/api/HDEV-36691687-9144-4e4c-b769-62443d655e15-ID/HDEV-2a1749da-be37-4421-b982-81f10cc53301-KEY', {
-                        sender_id: 'L7-IT',
-                        ref: 'sms',
-                        message: `Dear ${customerName}, your booking for ${apartment.name} is confirmed. Thank you!`,
-                        tel: customerPhone
-                    });
-
-                    console.log("Message sent:", messageResponse.data);
+                    // sendMessage();
+                    sendMessage(response.transaction_id,totalPrice);
                 } else {
                     Swal.fire({
                         title: "Payment Failed!",
@@ -222,6 +242,17 @@ function Booking() {
                 //     icon: "error"
                 // });
                 return;
+            }
+            // validate email
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(customerEmail)) {
+                // embed the message in the html form 
+                Swal.fire({
+                    title: "Error!",
+                    text: "Please provide a valid email address.",
+                    icon: "error"
+                });
+
             }
             //   public func addBooking(
     // apartmentId: Nat,

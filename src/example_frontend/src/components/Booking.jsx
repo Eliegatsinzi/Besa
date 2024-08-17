@@ -252,7 +252,7 @@ function Booking() {
                     text: "Please provide a valid email address.",
                     icon: "error"
                 });
-
+                return;
             }
             //   public func addBooking(
     // apartmentId: Nat,

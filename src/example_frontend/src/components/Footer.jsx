@@ -8,9 +8,9 @@ function Footer (){
     return (
         
       
-            <footer className="footer bg-dark text-light pt-3 pb-3 mt-5 fixed-bottom">
+            <footer className="footer bg-dark text-light pt-3 pb-3 mt-5">
                 <div className="container text-center">
-                Developed by <b>MUPENZI</b> | <b>GATSINZI</b> | <b>HURERA</b> &copy;Copyright reserved
+                Developed by <b>GATSINZI</b> &copy;Copyright reserved
                 </div>
             </footer>
       

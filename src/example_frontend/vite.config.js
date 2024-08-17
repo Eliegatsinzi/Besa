@@ -5,7 +5,6 @@ import environment from 'vite-plugin-environment';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '../../.env' });
-
 export default defineConfig({
   build: {
     emptyOutDir: true,
@@ -23,6 +22,10 @@ export default defineConfig({
         target: "http://127.0.0.1:4943",
         changeOrigin: true,
       },
+    },
+    headers: {
+      // Add this if you need to set headers specifically for dev server
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.flutterwave.com; connect-src 'self' http://127.0.0.1:4943; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
     },
   },
   plugins: [

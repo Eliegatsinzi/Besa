@@ -4,19 +4,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
+  <!-- <meta http-equiv="Content-Security-Policy" content="
+    script-src 'self' 'unsafe-eval' https://checkout.flutterwave.com;
+    script-src-elem 'self' 'unsafe-eval' https://checkout.flutterwave.com;
+    connect-src 'self' http://localhost:4943 https://checkout.flutterwave.com;
+    "> -->
+
   <title>APARTMENTS</title>
   <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-  crossorigin="anonymous"
-/>
-  
-
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
 </head>
 
 <body>
   <div id="root"></div>
+
+  <!-- Include your React app script -->
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

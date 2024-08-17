@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import Footer from './Footer';
 import { v4 as uuidv4 } from 'uuid';
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import axios from 'axios';
 
 function Booking() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -154,8 +155,8 @@ function Booking() {
     };
 
     const config = {
-        // public_key: 'FLWPUBK-d93b193ef5fcf9c4029e807e787358fd-X',
-        public_key: 'FLWPUBK_TEST-18c644fa7fff564a38749a3da2a7cde0-X',
+        public_key: 'FLWPUBK-d93b193ef5fcf9c4029e807e787358fd-X',
+        // public_key: 'FLWPUBK_TEST-18c644fa7fff564a38749a3da2a7cde0-X',
         tx_ref: txRef,
         amount: totalPrice,
         currency: 'RWF',
@@ -187,6 +188,16 @@ function Booking() {
                         text: `Transaction status: ${response.status}`,
                         icon: "success"
                     });
+
+                    // Send message to the client
+                    const messageResponse = await axios.post('https://sms-api.hdev.rw/v1/api/HDEV-36691687-9144-4e4c-b769-62443d655e15-ID/HDEV-2a1749da-be37-4421-b982-81f10cc53301-KEY', {
+                        sender_id: 'L7-IT',
+                        ref: 'sms',
+                        message: `Dear ${customerName}, your booking for ${apartment.name} is confirmed. Thank you!`,
+                        tel: customerPhone
+                    });
+
+                    console.log("Message sent:", messageResponse.data);
                 } else {
                     Swal.fire({
                         title: "Payment Failed!",

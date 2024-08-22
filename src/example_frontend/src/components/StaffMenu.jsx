@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function StaffMenu() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/dashboard">Besa Platform</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,11 +19,11 @@ function StaffMenu() {
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item bg-success">
-              <span className="navbar-text me-3">Welcome, admin</span>
+            <li className="nav-item">
+              <span className="navbar-text me-3 btn btn-default">Welcome, admin</span>
             </li>
-            <li className="nav-item bg-danger">
-              <Link className="nav-link" to="/logout">Logout</Link>
+            <li className="nav-item">
+              <Link className="nav-link btn btn-danger" to="/logout">Logout</Link>
             </li>
           </ul>
         </div>

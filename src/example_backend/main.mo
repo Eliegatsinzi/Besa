@@ -179,4 +179,13 @@ actor {
     
     return Array.size(loggedIn) > 0;
   };
+
+    // New function to get staff information by nid
+  public query func getStaffByNid(nid: Text) : async ?Staff {
+    let staffMember = Array.find<Staff>(staff, func (s) {
+      s.nid == nid
+    });
+    
+    return staffMember;
+  };
 };

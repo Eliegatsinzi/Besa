@@ -36,7 +36,7 @@ function App() {
             {user.role === 'admin' && (
               <>
                 <Route path="/dashboard" element={<StaffDashboard />} />
-                <Route path="/house-list" element={<HouseListHolder />} />
+                <Route path="/house-list" element={<HouseListHolder />}  user={user} />
                 {/* Add other admin-specific routes */}
               </>
             )}

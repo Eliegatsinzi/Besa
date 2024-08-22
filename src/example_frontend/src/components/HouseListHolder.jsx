@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { example_backend } from 'declarations/example_backend';
 
-function HouseListHolder() {
+function HouseListHolder(user) {
   const [houses, setHouses] = useState([]);
 
   useEffect(() => {

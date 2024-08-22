@@ -16,6 +16,9 @@ function App() {
   const handleLogin = (user) => {
     setUser(user);
   };
+  const handleLogout = () => {
+    setUser(null);
+  }
 
   return (
     <Router>
@@ -24,7 +27,6 @@ function App() {
         {/* Routes available to all users, including non-logged-in users */}
         <Route exact path="/" element={<Home />} />
         <Route exact path="/booking/:houseId" element={<Booking />} />
-        <Route exact path="/newhouse" element={<NewHouse />} />
         <Route exact path="/myhouses" element={<MyHouses />} />
         <Route exact path="/mybookings" element={<MyBookings />} />
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />} />
@@ -36,7 +38,10 @@ function App() {
             {user.role === 'admin' && (
               <>
                 <Route path="/dashboard" element={<StaffDashboard />} />
-                <Route path="/house-list" element={<HouseListHolder />}  user={user} />
+                <Route path="/house-list" element={<HouseListHolder userId={user.id}  userInfo={user} />} />
+                <Route exact path="/newhouse" element={<NewHouse userId={user.id}  userInfo={user}  />} />
+                {/* logout */}
+                <Route path="/logout" element={<Navigate to="/login" />} />
                 {/* Add other admin-specific routes */}
               </>
             )}

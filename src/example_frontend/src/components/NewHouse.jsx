@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { AuthClient } from "@dfinity/auth-client";
 import { Principal } from "@dfinity/principal";
 import { example_backend } from 'declarations/example_backend';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from "react-router-dom";
 import NavBar from './NavBar';
 import Footer from './Footer';
 
-const NewHouse = () => {
+const NewHouse = ({ userId, userInfo }) => {
+    // console.log(userId);
     const [apartments, setApartments] = useState([]);
     const [apartment, setApartmentss] = useState({ id: '', name: '', address: '', owner: '', phone: '', price: '', description: '', image: null, status: 'Available' });
     const [principal, setPrincipal] = useState(null);
+    const [staffId, setStaffId] = useState(''); // Add state to store staff ID
 
     const canisterId = process.env.CANISTER_ID_EXAMPLE_FRONTEND;
     const home = `/?canisterId=${canisterId}`;
@@ -19,21 +21,24 @@ const NewHouse = () => {
 
         let id = apartments.length;
 
+        const ownerPrincipal = staffId; 
+
         try {
             await example_backend.addHouse(
                 id,
                 apartment.name,
                 apartment.address,
-                apartment.owner,
+                staffId, // Use staff ID instead of principal
                 apartment.phone,
                 apartment.price,
                 apartment.description,
                 apartment.image,
                 apartment.status,
-                Principal.fromText(principal) // Ensure principal is in text format
+                staffId // Ensure principal is in text format
             );
             setApartmentss({ id: '', name: '', address: '', owner: '', phone: '', price: '', description: '', image: null, status: '' });
-            location.href = home;
+            // location.href = home;
+            Navigate("/house-list");
         } catch (error) {
             console.error("Failed to add House:", error);
         }
@@ -63,14 +68,17 @@ const NewHouse = () => {
     };
 
     useEffect(() => {
+        console.log(userId);
         getHouse();
-    }, []);
-
-    useEffect(() => {
+        
         const fetchPrincipal = async () => {
-            const authClient = await AuthClient.create();
-            const identity = authClient.getIdentity();
-            setPrincipal(identity.getPrincipal().toText());
+            const staffInfo = await example_backend.getStaffByNid(userId);
+            console.log(staffInfo);
+            if (staffInfo.length > 0) {
+                setStaffId(staffInfo[0].staffId); // Set staff ID
+            }else{
+                console.error("Failed to fetch staff info:", staffInfo);
+            }
         };
 
         fetchPrincipal();
@@ -78,13 +86,12 @@ const NewHouse = () => {
 
     useEffect(() => {
         if (principal) {
-            setApartmentss({ ...apartment, owner: principal });
+            setApartmentss({ ...apartment, owner: staffId }); // Update owner with staff ID
         }
-    }, [principal]);
+    }, [principal, staffId]);
 
     return (
         <>
-            <NavBar setPrincipal={setPrincipal} />
             <h4 className='text-center'>New Apartment</h4>
             <div className="row mt-2 mb-5">
                 <div className="col-md-3"></div>
@@ -93,7 +100,7 @@ const NewHouse = () => {
                         <div className="card-body">
                             <div className="card-title text-center"><h5> </h5></div>
                             <form onSubmit={saveHouse}>
-                                <input type="hidden" name="owner" value={principal} />
+                                <input type="hidden" name="owner" value={staffId} /> {/* Use staff ID */}
                                 <div className="form-group mb-2">
                                     <label htmlFor="name">Apartment name:</label>
                                     <input type="text" id='name' className="form-control" name='name' required value={apartment.name} onChange={handleInputChange} />
@@ -104,7 +111,7 @@ const NewHouse = () => {
                                 </div>
                                 <div className="form-group mb-2">
                                     <label htmlFor="ownername">Owner's System Id:</label>
-                                    <input type="text" id='ownername' readOnly className="form-control" name='owner' required value={apartment.owner} onChange={handleInputChange} />
+                                    <input type="text" id='ownername' readOnly className="form-control" name='owner' required value={staffId} onChange={handleInputChange} /> {/* Display staff ID */}
                                 </div>
                                 <div className="form-group mb-2">
                                     <label htmlFor="phone">Your phone number:</label>
@@ -115,7 +122,7 @@ const NewHouse = () => {
                                     <input type="number" id='price' className="form-control" name='price' required value={apartment.price} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group mb-2">
-                                    <label htmlFor="photo">photo:</label>
+                                    <label htmlFor="photo">Photo:</label>
                                     <input type="file" id='photo' className="form-control" name='image' required onChange={imageChange} />
                                 </div>
                                 <div className="form-group mb-2">
@@ -129,7 +136,7 @@ const NewHouse = () => {
                 </div>
                 <div className="col-md-6"></div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 }

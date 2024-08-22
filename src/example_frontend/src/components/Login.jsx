@@ -70,7 +70,7 @@ function Login({ onLogin }) {
         // Simulate a short delay for better UX
         setTimeout(() => {
           // Login successful
-          const staffUser = { id, role: 'admin' };
+          const staffUser = { id: id, role: 'admin' };
           onLogin(staffUser);
           navigate('/dashboard'); // Replace with the appropriate route for staff
         }, 1000); // Delay in milliseconds

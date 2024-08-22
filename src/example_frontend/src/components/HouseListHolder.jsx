@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { example_backend } from 'declarations/example_backend';
 
-function HouseListHolder(user) {
+function HouseListHolder({userId,userInfo}) {
   const [houses, setHouses] = useState([]);
+  console.log(userId);
+  console.log(userInfo);
 
   useEffect(() => {
     const fetchHouses = async () => {

@@ -18,7 +18,7 @@ actor {
     description: Text;
     image: Text;
     status: Text;
-    owner_principal: Principal;
+    owner_principal: Text;
   };
 
   public type Booking = {
@@ -69,7 +69,7 @@ actor {
     description: Text,
     image: Text,
     status: Text,
-    owner_principal: Principal
+    owner_principal: Text
   ) : async () {
     let newHouse : [Apartment] = [{
       id;

@@ -24,7 +24,8 @@ function MyHouses() {
                 try {
                     const allHouses = await example_backend.getHouse();
                     const myHouses = allHouses.filter(house => house.owner === principal);
-                    setHouses(myHouses);
+
+                    setHouses(allHouses);
                 } catch (error) {
                     console.error("Failed to fetch houses:", error);
                 }

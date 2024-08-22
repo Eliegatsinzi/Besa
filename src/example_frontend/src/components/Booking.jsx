@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import NavBar from './NavBar';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Footer from './Footer';
 import { v4 as uuidv4 } from 'uuid';
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
@@ -218,6 +218,7 @@ function Booking() {
                     // Send message to the client
                     // sendMessage();
                     sendMessage(response.transaction_id,totalPrice);
+                    Navigate('/');
                 } else {
                     Swal.fire({
                         title: "Payment Failed!",

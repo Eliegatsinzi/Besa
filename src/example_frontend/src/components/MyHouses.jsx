@@ -38,7 +38,7 @@ function MyHouses() {
         <div>
             <NavBar />
             <div className="container mt-5">
-                <h3>My Registered Houses</h3>
+                <h3>Available Houses</h3>
                 <div className="row">
                     {houses.length > 0 ? houses.map((house, index) => (
                         <div className="col-md-4" key={index}>

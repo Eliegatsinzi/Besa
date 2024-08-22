@@ -46,7 +46,7 @@ function Home() {
             <div className="container">
                 <div className="row mt-3">
                     {apartments.map((apartment, index) => (
-                        <div className="col-3 mb-4" key={index}>
+                        <div className="col-sm-3 mb-4" key={index}>
                             <div className="card">
                                 <img src={apartment.image} className="card-img-top" alt={apartment.name} />
                                 <div className="card-body">

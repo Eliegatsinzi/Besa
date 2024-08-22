@@ -10,14 +10,19 @@ function StaffMenu() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard">Dashboard</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/house-list">House List</Link>
             </li>
-            <li className="nav-item">
+          </ul>
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item bg-success">
+              <span className="navbar-text me-3">Welcome, admin</span>
+            </li>
+            <li className="nav-item bg-danger">
               <Link className="nav-link" to="/logout">Logout</Link>
             </li>
           </ul>

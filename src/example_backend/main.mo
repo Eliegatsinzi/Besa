@@ -6,7 +6,8 @@ import Principal "mo:base/Principal";
 actor {
   stable var apartments : [Apartment] = [];
   stable var users : [Text] = [];
-  
+  stable var staff : [Staff] = [];
+
   public type Apartment = {
     id: Nat;
     name: Text;
@@ -34,6 +35,12 @@ actor {
     paymentStatus: Text; // Payment status, initialized to "pending"
   };
 
+  public type Staff = {
+    nid: Text; // National ID
+    password: Text;
+    staffId: Text; // Unique Staff ID, provided from the frontend
+  };
+
   stable var bookings : [Booking] = [];
 
   public query func getHouse() : async [Apartment] {
@@ -46,6 +53,10 @@ actor {
 
   public query func getBookings() : async [Booking] {
     return bookings;
+  };
+
+  public query func getStaff() : async [Staff] {
+    return staff;
   };
 
   public func addHouse(
@@ -79,6 +90,20 @@ actor {
   public func addUser(hash: Text) : async () {
     let newUser : [Text] = [hash];
     users := Array.append(users, newUser);
+  };
+
+  public func addStaff(
+    nid: Text,
+    password: Text,
+    staffId: Text // Staff ID provided by frontend
+  ) : async () {
+    let newStaff : [Staff] = [{
+      nid;
+      password;
+      staffId
+    }];
+
+    staff := Array.append(staff, newStaff);
   };
 
   public func addBooking(
@@ -145,5 +170,13 @@ actor {
     
     bookings := Array.append(bookings, [newBooking]);
     return true; // Successfully updated
+  };
+
+  public func staffLogin(nid: Text, password: Text) : async Bool {
+    let loggedIn = Array.filter<Staff>(staff, func (s) {
+      s.nid == nid and s.password == password
+    });
+    
+    return Array.size(loggedIn) > 0;
   };
 };

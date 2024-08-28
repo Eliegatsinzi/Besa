@@ -4,6 +4,7 @@ import { example_backend } from 'declarations/example_backend';
 function HouseListHolder({ userId, userInfo }) {
   const [houses, setHouses] = useState([]);
   const [editPrice, setEditPrice] = useState({}); // State to hold new prices
+  const [alert, setAlert] = useState({}); // State to hold alert messages and visibility
 
   useEffect(() => {
     const fetchHouses = async () => {
@@ -35,11 +36,42 @@ function HouseListHolder({ userId, userInfo }) {
             house.id === id ? { ...house, price: newPrice } : house
           )
         );
+        setAlert(prevState => ({
+          ...prevState,
+          [id]: { message: 'Price updated successfully!', visible: true }
+        }));
+        // Hide alert after 5 seconds
+        setTimeout(() => {
+          setAlert(prevState => ({
+            ...prevState,
+            [id]: { ...prevState[id], visible: false }
+          }));
+        }, 5000);
       } else {
         console.error('Error updating price: Apartment not found');
+        setAlert(prevState => ({
+          ...prevState,
+          [id]: { message: 'Error updating price: Apartment not found', visible: true }
+        }));
+        setTimeout(() => {
+          setAlert(prevState => ({
+            ...prevState,
+            [id]: { ...prevState[id], visible: false }
+          }));
+        }, 5000);
       }
     } catch (error) {
       console.error('Error updating price:', error);
+      setAlert(prevState => ({
+        ...prevState,
+        [id]: { message: 'Error updating price.', visible: true }
+      }));
+      setTimeout(() => {
+        setAlert(prevState => ({
+          ...prevState,
+          [id]: { ...prevState[id], visible: false }
+        }));
+      }, 5000);
     }
   };
 
@@ -76,6 +108,13 @@ function HouseListHolder({ userId, userInfo }) {
                 >
                   Update Price
                 </button>
+
+                {/* Display alert message on the card */}
+                {alert[house.id] && alert[house.id].visible && (
+                  <div className="alert alert-info mt-2" role="alert">
+                    {alert[house.id].message}
+                  </div>
+                )}
               </div>
             </div>
           </div>

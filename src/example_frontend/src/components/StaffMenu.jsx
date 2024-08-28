@@ -20,6 +20,9 @@ function StaffMenu() {
             <li className="nav-item">
               <Link className="nav-link" to="/newhouse">New House</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/allbookings">Current Bookings</Link>
+            </li>
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">

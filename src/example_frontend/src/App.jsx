@@ -9,6 +9,7 @@ import Login from './components/Login';
 import StaffMenu from './components/StaffMenu';
 import StaffDashboard from './components/StaffDashboard';
 import HouseListHolder from './components/HouseListHolder';
+import AllBookings  from './components/AllBookings';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/dashboard" element={<StaffDashboard />} />
                 <Route path="/house-list" element={<HouseListHolder userId={user.id}  userInfo={user} />} />
                 <Route exact path="/newhouse" element={<NewHouse userId={user.id}  userInfo={user}  />} />
+                <Route exact path="/allbookings" element={<AllBookings />} />
                 {/* logout */}
                 <Route path="/logout" element={<Navigate to="/login" />} />
                 {/* Add other admin-specific routes */}

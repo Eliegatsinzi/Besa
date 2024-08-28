@@ -27,6 +27,7 @@ function Booking() {
     const [txRef, setTxRef] = useState(uuidv4());
     const [txId, setTxId] = useState('');
     const [paymentStatus, setPaymentStatus] = useState('');
+    const [existingBookings, setExistingBookings] = useState([]);
 
     const authClientPromise = AuthClient.create();
 
@@ -61,6 +62,18 @@ function Booking() {
             console.error("Logout failed:", error);
         }
     };
+    useEffect(() => {
+        const fetchBookings = async () => {
+            try {
+                const bookings = await example_backend.getBookings();
+                setExistingBookings(bookings);
+            } catch (error) {
+                console.error("Failed to fetch bookings:", error);
+            }
+        };
+    
+        fetchBookings();
+    }, []);
 
     const updateIdentity = (identity) => {
         if (identity) {
@@ -233,7 +246,37 @@ function Booking() {
             }
         });
     };
-
+    const checkOverlap = (newStartDate, newEndDate, houseId) => {
+        // Convert new booking dates to timestamps
+        const newStart = new Date(newStartDate).getTime();
+        const newEnd = new Date(newEndDate).getTime();
+    
+        for (let booking of existingBookings) {
+            if (booking.houseId !== houseId) {
+                continue; // Skip bookings for other houses
+            }
+    
+            // Convert existing booking dates to timestamps
+            const existingStartDate = new Date(booking.startISO).getTime();
+            const existingEndDate = new Date(booking.endISO).getTime();
+    
+            // Consider only successful bookings
+            if (booking.paymentStatus !== "success" && booking.paymentStatus !== "successful") {
+                continue;
+            }
+    
+            // Check for overlap
+            if (
+                (newStart >= existingStartDate && newStart <= existingEndDate) ||
+                (newEnd >= existingStartDate && newEnd <= existingEndDate) ||
+                (newStart <= existingStartDate && newEnd >= existingEndDate)
+            ) {
+                return true; // There is an overlap
+            }
+        }
+        return false; // No overlap
+    };
+    
     const handleBook = async () => {
         try {
             if (!isDateCorrect || !totalPrice || !customerName || !customerPhone || !customerEmail) {
@@ -282,7 +325,16 @@ function Booking() {
             //     totalPrice,
 
             // });
-
+            // Check for booking overlap for the specific house
+            const hasOverlap = checkOverlap(startDate, endDate, houseId);
+            if (hasOverlap) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "The selected dates overlap with an existing booking for this house. Please choose different dates.",
+                    icon: "error"
+                });
+                return;
+            }
 
             await example_backend.addBooking(parseInt(houseId), principal, startDate, endDate, totalPrice.toString(), customerName, customerPhone, customerEmail, txRef, txId, paymentStatus);
 
@@ -308,7 +360,9 @@ function Booking() {
                             <img src={apartment.image} className="card-img-top" alt={apartment.name} />
                             <div className="card-body">
                                 <h5 className="card-title">{apartment.name}</h5>
-                                <p className="card-text">{apartment.description}</p>
+                                {/* <p className="card-text">{apartment.description}</p> */}
+
+                                <p className="card-text" dangerouslySetInnerHTML={{ __html: apartment.description }}></p>
                                 <p className="card-text">Price per night: {apartment.price} RWF</p>
                                 {isLoggedIn && (
                                     <form>

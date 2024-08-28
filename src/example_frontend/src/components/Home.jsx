@@ -51,7 +51,7 @@ function Home() {
                                 <img src={apartment.image} className="card-img-top" alt={apartment.name} />
                                 <div className="card-body">
                                     <h5 className="card-title">{apartment.name}</h5>
-                                    <p className="card-text">{apartment.description}</p>
+                                    {/* <p className="card-text">{apartment.description}</p> */}
                                     <button onClick={() => { selectApartment(index) }} type='button' className="btn btn-outline-primary btn-sm float-end"><i><small>More</small></i> &rarr;</button>
                                 </div>
                                 <div className="card-footer text-sm"><i><small>{apartment.owner} - {apartment.address}</small></i></div>

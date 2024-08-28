@@ -188,4 +188,41 @@ actor {
     
     return staffMember;
   };
+
+
+
+  public func updateApartmentPrice(apartmentId: Nat, newPrice: Text) : async Bool {
+    // Find the apartment by apartmentId
+    let updatedApartments = Array.filter<Apartment>(apartments, func (apartment) {
+      apartment.id == apartmentId
+    });
+
+    if (Array.size(updatedApartments) == 0) {
+      return false; // Apartment with this id not found
+    };
+
+    let updatedApartment = updatedApartments[0];
+    let newApartment = {
+      id = updatedApartment.id;
+      name = updatedApartment.name;
+      address = updatedApartment.address;
+      owner = updatedApartment.owner;
+      phone = updatedApartment.phone;
+      price = newPrice; // Update the price
+      description = updatedApartment.description;
+      image = updatedApartment.image;
+      status = updatedApartment.status;
+      owner_principal = updatedApartment.owner_principal;
+    };
+
+    // Remove the old apartment record
+    apartments := Array.filter<Apartment>(apartments, func (apartment) {
+      apartment.id != apartmentId
+    });
+
+    // Add the updated apartment record
+    apartments := Array.append(apartments, [newApartment]);
+    return true; // Successfully updated
+  };
+  
 };

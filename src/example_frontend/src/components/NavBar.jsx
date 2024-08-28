@@ -103,7 +103,7 @@ function NavBar({ setPrincipal }) {
                         {isLoggedIn ? (
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link to={myhouses} className="nav-link btn btn-link" aria-current="page">All Houses</Link>
+                                    <Link to={home} className="nav-link btn btn-link" aria-current="page">All Houses</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link to={mybookings} className="nav-link btn btn-link" aria-current="page">My Bookings</Link>

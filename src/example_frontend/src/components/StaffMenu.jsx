@@ -29,7 +29,7 @@ function StaffMenu() {
               <span className="navbar-text me-3 btn btn-default">Welcome, admin</span>
             </li>
             <li className="nav-item">
-              <Link className="nav-link btn btn-danger" to="/logout">Logout</Link>
+              <Link className="nav-link btn btn-danger" to="/login">Logout</Link>
             </li>
           </ul>
         </div>

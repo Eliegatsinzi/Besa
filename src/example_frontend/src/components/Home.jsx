@@ -13,7 +13,8 @@ function Home() {
 
     const getHouse = async () => {
         // delete all 
-        await example_backend.deleteAll();
+        // await example_backend.deleteAll();
+        // hide method to delete all
         try {
             const houses = await example_backend.getHouse();
             setApartments(houses);

@@ -224,5 +224,10 @@ actor {
     apartments := Array.append(apartments, [newApartment]);
     return true; // Successfully updated
   };
+  // delete all houses and bookings 
+  public func deleteAll() : async () {
+    apartments := [];
+    bookings := [];
+  };
   
 };

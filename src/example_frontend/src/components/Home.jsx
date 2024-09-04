@@ -12,6 +12,8 @@ function Home() {
     const [principal, setPrincipal] = useState(null);
 
     const getHouse = async () => {
+        // delete all 
+        await example_backend.deleteAll();
         try {
             const houses = await example_backend.getHouse();
             setApartments(houses);

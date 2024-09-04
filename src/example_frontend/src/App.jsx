@@ -44,6 +44,7 @@ function App() {
                 <Route exact path="/allbookings" element={<AllBookings />} />
                 {/* logout */}
                 <Route path="/logout" element={<Navigate to="/login" />} />
+                <Route path="/login" element={user ? <Login onLogin={handleLogin} /> : <Login onLogin={handleLogin} />} />
                 {/* Add other admin-specific routes */}
               </>
             )}

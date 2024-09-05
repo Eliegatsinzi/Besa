@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaListAlt, FaClipboardList, FaChartBar } from 'react-icons/fa';
+import StaffFooter from './StaffFooter';
 
 function StaffDashboard() {
   return (
+    <>
     <div className="container mt-5">
       <h2 className="text-center mb-4 animated-title">Staff Dashboard</h2>
       <div className="row text-center">
@@ -49,6 +51,8 @@ function StaffDashboard() {
         </div>
       </div>
     </div>
+    <StaffFooter />
+    </>
   );
 }
 

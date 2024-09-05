@@ -3,6 +3,8 @@ import { example_backend } from 'declarations/example_backend';
 import { Bar, Pie } from 'react-chartjs-2';
 import Chart from 'chart.js/auto'; // Ensure you import Chart.js
 
+import StaffFooter from './StaffFooter';
+
 function AnalyticsPage() {
   const [apartments, setApartments] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -122,6 +124,7 @@ function AnalyticsPage() {
   }, []);
 
   return (
+    <>
     <div className="container mt-5">
       <h2 className="text-center">Analytics</h2>
       <div className="row">
@@ -168,6 +171,8 @@ function AnalyticsPage() {
         </div>
       </div>
     </div>
+      <StaffFooter />
+    </>
   );
 }
 

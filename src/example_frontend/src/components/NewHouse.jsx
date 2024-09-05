@@ -3,6 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { example_backend } from 'declarations/example_backend';
 import { Navigate } from 'react-router-dom';
+import StaffFooter from './StaffFooter';
 
 // Function to convert file to base64
 const getBase64 = (file) => {
@@ -271,6 +272,7 @@ const NewHouse = ({ userId }) => {
         </div>
         <div className="col-md-6"></div>
       </div>
+      <StaffFooter />
     </>
   );
 }

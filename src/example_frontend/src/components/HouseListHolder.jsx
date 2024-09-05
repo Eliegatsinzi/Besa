@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { example_backend } from 'declarations/example_backend';
+// staff footer
+import StaffFooter from './StaffFooter';
 
 function HouseListHolder({ userId, userInfo }) {
   const [houses, setHouses] = useState([]);
@@ -123,6 +125,7 @@ function HouseListHolder({ userId, userInfo }) {
   };
 
   return (
+    <>
     <div className="container mt-5">
       <h2 className="text-center">House List</h2>
       <div className="row">
@@ -176,6 +179,8 @@ function HouseListHolder({ userId, userInfo }) {
         ))}
       </div>
     </div>
+    <StaffFooter />
+    </>
   );
 }
 

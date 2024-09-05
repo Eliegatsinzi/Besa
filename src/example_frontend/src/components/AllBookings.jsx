@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AuthClient } from "@dfinity/auth-client";
 import { example_backend } from 'declarations/example_backend';
 import NavBar from './NavBar';
-import Footer from './Footer';
+import StaffFooter from './StaffFooter';
 
 function AllBookings() {
     const [bookings, setBookings] = useState([]);
@@ -128,6 +128,7 @@ function AllBookings() {
                     </tbody>
                 </table>
             </div>
+            <StaffFooter />
         </div>
     );
 }

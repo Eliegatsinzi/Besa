@@ -229,5 +229,28 @@ actor {
     apartments := [];
     bookings := [];
   };
+  // delete house and it's bookings
+  public func deleteHouse(id: Nat) : async Bool {
+    // Find the apartment by apartmentId
+    let updatedApartments = Array.filter<Apartment>(apartments, func (apartment) {
+      apartment.id == id
+    });
+
+    if (Array.size(updatedApartments) == 0) {
+      return false; // Apartment with this id not found
+    };
+
+    // Remove the old apartment record
+    apartments := Array.filter<Apartment>(apartments, func (apartment) {
+      apartment.id != id
+    });
+
+    // Remove the bookings for the apartment
+    bookings := Array.filter<Booking>(bookings, func (booking) {
+      booking.apartmentId != id
+    });
+
+    return true; // Successfully deleted
+  };
   
 };

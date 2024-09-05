@@ -152,6 +152,16 @@ function Booking() {
             setIsDateCorrect(true);
             setEndDate(d2);
             calculateTotalPrice(differenceInDays);
+            // Check for overlap after setting the end date
+            const hasOverlap = checkOverlap(d1, d2, houseId);
+            setIsDateCorrect(!hasOverlap);
+            if (hasOverlap) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Selected dates overlap with an existing booking. Please choose different dates.",
+                    icon: "error"
+                });
+            }
         } else if (differenceInDays > 5) {
             setIsDateCorrect(false);
         } else {
@@ -213,6 +223,7 @@ function Booking() {
         console.error('Error sending message:', error);
     }
     };
+    // check over
 
     const handlePayment = () => {
         handleFlutterPayment({
@@ -249,16 +260,33 @@ function Booking() {
     const checkOverlap = (newStartDate, newEndDate, houseId) => {
         // Convert new booking dates to timestamps
         const newStart = new Date(newStartDate).getTime();
+        // console.log("Start date :");
+        // console.log(newStart);
         const newEnd = new Date(newEndDate).getTime();
+        // console.log("end date :");
+        // console.log(newEnd);
     
         for (let booking of existingBookings) {
-            if (booking.houseId !== houseId) {
+            // aprtmentId
+            console.log("houseId :");
+            console.log(parseInt(houseId));
+            console.log("Apartmentid :");
+            console.log(parseInt(booking.apartmentId));
+
+
+            if (!(parseInt(booking.apartmentId) == parseInt(houseId))) {
                 continue; // Skip bookings for other houses
             }
+            console.log("booking :");
+            console.log(booking);
     
             // Convert existing booking dates to timestamps
             const existingStartDate = new Date(booking.startISO).getTime();
+            // console.log("exist Start date :");
+            // console.log(existingStartDate);
             const existingEndDate = new Date(booking.endISO).getTime();
+            // console.log("exist end date :");
+            // console.log(existingEndDate);
     
             // Consider only successful bookings
             if (booking.paymentStatus !== "success" && booking.paymentStatus !== "successful") {

@@ -20,9 +20,9 @@ function HouseListHolder({ userId, userInfo }) {
   }, []);
 
   const handlePriceChange = (id, newPrice) => {
-    setEditPrice(prevState => ({
+    setEditPrice((prevState) => ({
       ...prevState,
-      [id]: newPrice
+      [id]: newPrice,
     }));
   };
 
@@ -31,45 +31,92 @@ function HouseListHolder({ userId, userInfo }) {
     try {
       const success = await example_backend.updateApartmentPrice(id, newPrice);
       if (success) {
-        setHouses(prevState =>
-          prevState.map(house =>
+        setHouses((prevState) =>
+          prevState.map((house) =>
             house.id === id ? { ...house, price: newPrice } : house
           )
         );
-        setAlert(prevState => ({
+        setAlert((prevState) => ({
           ...prevState,
-          [id]: { message: 'Price updated successfully!', visible: true }
+          [id]: { message: 'Price updated successfully!', visible: true },
         }));
         // Hide alert after 5 seconds
         setTimeout(() => {
-          setAlert(prevState => ({
+          setAlert((prevState) => ({
             ...prevState,
-            [id]: { ...prevState[id], visible: false }
+            [id]: { ...prevState[id], visible: false },
           }));
         }, 5000);
       } else {
         console.error('Error updating price: Apartment not found');
-        setAlert(prevState => ({
+        setAlert((prevState) => ({
           ...prevState,
-          [id]: { message: 'Error updating price: Apartment not found', visible: true }
+          [id]: {
+            message: 'Error updating price: Apartment not found',
+            visible: true,
+          },
         }));
         setTimeout(() => {
-          setAlert(prevState => ({
+          setAlert((prevState) => ({
             ...prevState,
-            [id]: { ...prevState[id], visible: false }
+            [id]: { ...prevState[id], visible: false },
           }));
         }, 5000);
       }
     } catch (error) {
       console.error('Error updating price:', error);
-      setAlert(prevState => ({
+      setAlert((prevState) => ({
         ...prevState,
-        [id]: { message: 'Error updating price.', visible: true }
+        [id]: { message: 'Error updating price.', visible: true },
       }));
       setTimeout(() => {
-        setAlert(prevState => ({
+        setAlert((prevState) => ({
           ...prevState,
-          [id]: { ...prevState[id], visible: false }
+          [id]: { ...prevState[id], visible: false },
+        }));
+      }, 5000);
+    }
+  };
+
+  const handleDeleteHouse = async (id) => {
+    try {
+      const success = await example_backend.deleteHouse(id);
+      if (success) {
+        setHouses((prevState) => prevState.filter((house) => house.id !== id));
+        setAlert((prevState) => ({
+          ...prevState,
+          [id]: { message: 'House deleted successfully!', visible: true },
+        }));
+        // Hide alert after 5 seconds
+        setTimeout(() => {
+          setAlert((prevState) => ({
+            ...prevState,
+            [id]: { ...prevState[id], visible: false },
+          }));
+        }, 5000);
+      } else {
+        console.error('Error deleting house: Apartment not found');
+        setAlert((prevState) => ({
+          ...prevState,
+          [id]: { message: 'Error deleting house: Apartment not found', visible: true },
+        }));
+        setTimeout(() => {
+          setAlert((prevState) => ({
+            ...prevState,
+            [id]: { ...prevState[id], visible: false },
+          }));
+        }, 5000);
+      }
+    } catch (error) {
+      console.error('Error deleting house:', error);
+      setAlert((prevState) => ({
+        ...prevState,
+        [id]: { message: 'Error deleting house.', visible: true },
+      }));
+      setTimeout(() => {
+        setAlert((prevState) => ({
+          ...prevState,
+          [id]: { ...prevState[id], visible: false },
         }));
       }, 5000);
     }
@@ -107,6 +154,14 @@ function HouseListHolder({ userId, userInfo }) {
                   onClick={() => handleUpdatePrice(house.id)}
                 >
                   Update Price
+                </button>
+
+                {/* Button to delete the house */}
+                <button
+                  className="btn btn-danger mt-2 ml-2"
+                  onClick={() => handleDeleteHouse(house.id)}
+                >
+                  Delete House
                 </button>
 
                 {/* Display alert message on the card */}

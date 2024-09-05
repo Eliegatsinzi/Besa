@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function StaffMenu() {
+function StaffMenu({ onLogout }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-secondary">
       <div className="container-fluid">
@@ -29,7 +29,7 @@ function StaffMenu() {
               <span className="navbar-text me-3 btn btn-default">Welcome, admin</span>
             </li>
             <li className="nav-item">
-              <Link className="nav-link btn btn-danger" to="/login">Logout</Link>
+              <button className="nav-link btn btn-danger" onClick={onLogout}>Logout</button>
             </li>
           </ul>
         </div>

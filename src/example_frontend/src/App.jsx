@@ -19,11 +19,13 @@ function App() {
   };
   const handleLogout = () => {
     setUser(null);
-  }
+    // Optionally, navigate to the login page after logout
+    window.location.href = '/'; 
+  };
 
   return (
     <Router>
-      {user && (user.role === 'admin' || user.role === 'staff') && <StaffMenu />} {/* Show StaffMenu if user is logged in as admin or staff */}
+      {user && (user.role === 'admin' || user.role === 'staff') && <StaffMenu  onLogout={handleLogout} />} {/* Show StaffMenu if user is logged in as admin or staff */}
       <Routes>
         {/* Routes available to all users, including non-logged-in users */}
         <Route exact path="/" element={<Home />} />
@@ -43,8 +45,9 @@ function App() {
                 <Route exact path="/newhouse" element={<NewHouse userId={user.id}  userInfo={user}  />} />
                 <Route exact path="/allbookings" element={<AllBookings />} />
                 {/* logout */}
-                <Route path="/logout" element={<Navigate to="/login" />} />
                 <Route path="/login" element={user ? <Login onLogin={handleLogin} /> : <Login onLogin={handleLogin} />} />
+                {/* logout */}
+
                 {/* Add other admin-specific routes */}
               </>
             )}
@@ -61,7 +64,7 @@ function App() {
         {/* Fallback route for unauthorized access */}
         <Route
           path="*"
-          element={<div className="container mt-5"><h2 className="text-center">404 - Page Not Found</h2></div>}
+          element={<div className="container mt-5"><h2 className="text-center">You've logged out ot page is not found</h2></div>}
         />
       </Routes>
     </Router>

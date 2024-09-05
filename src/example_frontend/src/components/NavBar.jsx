@@ -47,8 +47,8 @@ function NavBar({ setPrincipal }) {
     const signOut = async () => {
         const authClient = await authClientPromise;
         await authClient.logout();
+        window.location.href = "/";
         updateIdentity(null);
-        window.location.reload();
     };
 
     const updateIdentity = (identity) => {

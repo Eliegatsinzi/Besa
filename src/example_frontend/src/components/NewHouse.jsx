@@ -49,12 +49,27 @@ const NewHouse = ({ userId }) => {
   });
   const [staffId, setStaffId] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState(null);
+  const [isValid, setIsValid] = useState(true);
 
   const canisterId = process.env.CANISTER_ID_EXAMPLE_FRONTEND;
   const home = `/?canisterId=${canisterId}`;
 
+  const validateForm = () => {
+    if (!apartment.name || !apartment.address || !apartment.phone || !apartment.price || !apartment.image) {
+      setError('Please fill all required fields and upload a valid image.');
+      setIsValid(false);
+      return false;
+    }
+    setError(null);
+    setIsValid(true);
+    return true;
+  };
+
   const saveHouse = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) return;
 
     let id = apartments.length;
 
@@ -100,6 +115,24 @@ const NewHouse = ({ userId }) => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setApartmentss({ ...apartment, [name]: value });
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Check if the file is an image
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (validImageTypes.includes(file.type)) {
+        getBase64(file).then((base64) => {
+          setApartmentss({ ...apartment, image: base64 });
+          setError(null);  // Clear any previous error
+          setIsValid(true);  // Ensure the form is valid if an image is successfully loaded
+        }).catch(error => console.error('Error converting file to base64:', error));
+      } else {
+        setError('Please upload a valid image file (JPEG, PNG, GIF).');
+        setIsValid(false);
+      }
+    }
   };
 
   useEffect(() => {
@@ -207,18 +240,10 @@ const NewHouse = ({ userId }) => {
                     className="form-control"
                     name='image'
                     required
-                    onChange={(event) => {
-                      const file = event.target.files[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          setApartmentss({ ...apartment, image: reader.result });
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
+                    onChange={handleFileChange}
                   />
                 </div>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <div className="form-group mb-2">
                   <label htmlFor="description">Description:</label>
                   <CKEditor
@@ -233,7 +258,13 @@ const NewHouse = ({ userId }) => {
                     }}
                   />
                 </div>
-                <button type="submit" className='btn btn-success shadow'>Save</button>
+                <button 
+                  type="submit" 
+                  className='btn btn-success shadow' 
+                  disabled={!isValid}
+                >
+                  Save
+                </button>
               </form>
             </div>
           </div>

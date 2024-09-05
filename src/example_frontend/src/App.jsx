@@ -10,6 +10,9 @@ import StaffMenu from './components/StaffMenu';
 import StaffDashboard from './components/StaffDashboard';
 import HouseListHolder from './components/HouseListHolder';
 import AllBookings  from './components/AllBookings';
+import './StaffDashboard.css'; // For custom animations
+import AnalyticsPage from './components/AnalyticsPage';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -46,9 +49,8 @@ function App() {
                 <Route exact path="/allbookings" element={<AllBookings />} />
                 {/* logout */}
                 <Route path="/login" element={user ? <Login onLogin={handleLogin} /> : <Login onLogin={handleLogin} />} />
-                {/* logout */}
-
-                {/* Add other admin-specific routes */}
+                
+                <Route path="/analytics" element={<AnalyticsPage />} />
               </>
             )}
 

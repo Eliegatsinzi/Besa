@@ -7,6 +7,7 @@ import Footer from './Footer';
 function AllBookings() {
     const [bookings, setBookings] = useState([]);
     const [filteredBookings, setFilteredBookings] = useState([]);
+    const [apartments, setApartments] = useState({});
     const [principal, setPrincipal] = useState(null);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -19,6 +20,23 @@ function AllBookings() {
         };
 
         fetchPrincipal();
+    }, []);
+
+    useEffect(() => {
+        const fetchApartments = async () => {
+            try {
+                const allApartments = await example_backend.getHouse();
+                const apartmentMap = allApartments.reduce((acc, apartment) => {
+                    acc[apartment.id] = apartment.name;
+                    return acc;
+                }, {});
+                setApartments(apartmentMap);
+            } catch (error) {
+                console.error("Failed to fetch apartments:", error);
+            }
+        };
+
+        fetchApartments();
     }, []);
 
     useEffect(() => {
@@ -96,7 +114,7 @@ function AllBookings() {
                     <tbody>
                         {filteredBookings.length > 0 ? filteredBookings.map((booking, index) => (
                             <tr key={index}>
-                                <td>{booking.apartmentName}</td>
+                                <td>{apartments[booking.apartmentId] || 'Unknown'}</td>
                                 <td>{booking.startISO}</td>
                                 <td>{booking.endISO}</td>
                                 <td>{booking.totalPrice} RWF</td>

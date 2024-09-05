@@ -1,0 +1,27 @@
+
+
+  /* analytics */
+
+  /* Styles for the Analytics component */
+
+  .container {
+    margin-top: 30px;
+  }
+  
+  .card {
+    border-radius: 10px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+  }
+  
+  .card-text {
+    font-size: 1.25rem;
+    color: #555;
+  }
+  

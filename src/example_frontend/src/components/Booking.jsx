@@ -293,14 +293,15 @@ function Booking() {
                 continue;
             }
     
-            // Check for overlap
+           // Check for overlap (inclusive of the end date)
             if (
-                (newStart >= existingStartDate && newStart <= existingEndDate) ||
-                (newEnd >= existingStartDate && newEnd <= existingEndDate) ||
-                (newStart <= existingStartDate && newEnd >= existingEndDate)
+                (newStart >= existingStartDate && newStart < existingEndDate) || // Exclude overlap on the exact end date
+                (newEnd > existingStartDate && newEnd <= existingEndDate) || // Exclude overlap if newEnd is exactly on the start date
+                (newStart <= existingStartDate && newEnd > existingEndDate)   // Exclude bookings that fully overlap
             ) {
                 return true; // There is an overlap
             }
+
         }
         return false; // No overlap
     };
